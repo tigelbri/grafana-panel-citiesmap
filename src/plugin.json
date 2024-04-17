@@ -1,7 +1,7 @@
 {
   "type": "panel",
   "name": "Orchestra Cities Map",
-  "id": "orchestracities-map-panel",
+  "id": "ertis-citiesmap-panel",
   "state": "beta",
   "info": {
     "description": "Orchestra Cities Map",

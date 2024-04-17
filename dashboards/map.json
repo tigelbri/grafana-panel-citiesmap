@@ -463,7 +463,7 @@
                     }
                 ],
                 "title": "Demo 1",
-                "type": "orchestracities-map-panel"
+                "type": "ertis-citiesmap-panel"
             },
             {
                 "datasource": null,
@@ -879,7 +879,7 @@
                     }
                 ],
                 "title": "Demo 2",
-                "type": "orchestracities-map-panel"
+                "type": "ertis-citiesmap-panel"
             },
             {
                 "datasource": null,
@@ -1294,7 +1294,7 @@
                     }
                 ],
                 "title": "Demo 1",
-                "type": "orchestracities-map-panel"
+                "type": "ertis-citiesmap-panel"
             },
             {
                 "datasource": null,
@@ -1709,7 +1709,7 @@
                     }
                 ],
                 "title": "Demo 1",
-                "type": "orchestracities-map-panel"
+                "type": "ertis-citiesmap-panel"
             }
         ],
         "refresh": "",

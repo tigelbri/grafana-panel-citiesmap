@@ -6,7 +6,7 @@ services:
       - '3000:3000'
     volumes:
       - grafana-storage:/var/lib/grafana
-      - .:/var/lib/grafana/plugins/orchestracities-map-panel/
+      - .:/var/lib/grafana/plugins/ertis-citiesmap-panel/
       - ./etc/grafana/grafana.ini:/etc/grafana/grafana.ini
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_USERNAME:-admin}

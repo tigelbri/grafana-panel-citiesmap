@@ -437,7 +437,7 @@
                     }
                 ],
                 "title": "Orchestracities Map Panel",
-                "type": "orchestracities-map-panel"
+                "type": "ertis-citiesmap-panel"
             }
         ],
         "refresh": "",
