@@ -22,6 +22,7 @@ export class DataHoverView extends PureComponent<Props> {
     if (!data || rowIndex == null) {
       return null;
     }
+
     if (propsToShow && propsToShow.length > 1) {
       return (
         <div className={this.style.infoWrap}>
@@ -38,7 +39,7 @@ export class DataHoverView extends PureComponent<Props> {
           {propsToShow.map((f: Field<any, Vector<any>>, i: number | undefined) => (
             <div key={`${i}/${rowIndex}`} className={this.style.row}>
               <span>{getFieldDisplayName(f, data)}:</span>
-              <span>{fmt(f, rowIndex)}</span>
+              {beutifyIfJSON(fmt(f, rowIndex))}
             </div>
           ))}
         </div>
@@ -49,13 +50,8 @@ export class DataHoverView extends PureComponent<Props> {
           {propsToShow.map((f: Field<any, Vector<any>>, i: number | undefined) => (
             <div key={`${i}/${rowIndex}`} className={i === columnIndex ? this.style.highlight : ''}>
               <div className={this.style.singleDisplay}>
-                <h5>{getFieldDisplayName(f, data)}</h5>
-              </div>
-              <div className={this.style.singleDisplay}>
-                <h1>
-                  <i className={'fa ' + icon + ' ' + this.style.icon} />
-                  {fmt(f, rowIndex)}
-                </h1>
+                <p>{getFieldDisplayName(f, data)}</p>
+                {beutifyIfJSON(fmt(f, rowIndex))}
               </div>
             </div>
           ))}
@@ -90,6 +86,19 @@ export class DataHoverView extends PureComponent<Props> {
   }
 }
 
+const beutifyIfJSON = (data: string) => {
+  try {
+    let data_json: any = JSON.parse(data);
+    return <div>
+      {Object.entries(data_json).map(([key, value]) => {
+        return <p key={key}>{key}: {value as string}</p>
+      })}
+    </div>
+  } catch (e) {
+      return <p>data</p>;
+  }
+}
+
 function fmt(field: Field, row: number): string {
   const v = field.values.get(row);
   if (field.display) {
@@ -104,7 +113,7 @@ const getStyles = (theme: GrafanaTheme2) => {
       padding: 0px;
       div {
         font-weight: ${theme.typography.fontWeightMedium};
-        padding: ${theme.spacing(0.25, 2)};
+        padding: ${theme.spacing(0.25, 0.5)};
       }
     `,
     row: css`
@@ -116,7 +125,7 @@ const getStyles = (theme: GrafanaTheme2) => {
       background: ${theme.colors.action.hover};
     `,
     singleDisplay: css`
-      text-align: center;
+      text-align: left;
       h1 {
         font-size: 3.5rem;
         font-weight: ${theme.typography.fontWeightBold};
