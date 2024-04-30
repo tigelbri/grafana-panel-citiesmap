@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { stylesFactory } from '@grafana/ui';
 import { DataFrame, Field, formattedValueToString, getFieldDisplayName, GrafanaTheme2, Vector } from '@grafana/data';
 import { css } from '@emotion/css';
 import { config } from '../config';
@@ -99,43 +98,45 @@ function fmt(field: Field, row: number): string {
   return `${v}`;
 }
 
-const getStyles = stylesFactory((theme: GrafanaTheme2) => ({
-  infoWrap: css`
-    padding: 0px;
-    div {
-      font-weight: ${theme.typography.fontWeightMedium};
-      padding: ${theme.spacing(0.25, 2)};
-    }
-  `,
-  row: css`
-    padding: 2px;
-    display: flex;
-    justify-content: space-between;
-  `,
-  highlight: css`
-    background: ${theme.colors.action.hover};
-  `,
-  singleDisplay: css`
-    text-align: center;
-    h1 {
-      font-size: 3.5rem;
-      font-weight: ${theme.typography.fontWeightBold};
-      margin: 0px;
-    }
-  `,
-  rightDisplay: css`
-    padding-top: 0px;
-    padding-bottom: 0px;
-    text-align: right;
-    h6 {
-      font-height: 1;
-      margin: 0px;
-    }
-  `,
-  leftDisplay: css`
-    text-align: left;
-  `,
-  icon: css`
-    margin-right: 5px;
-  `,
-}));
+const getStyles = (theme: GrafanaTheme2) => {
+  return {
+    infoWrap: css`
+      padding: 0px;
+      div {
+        font-weight: ${theme.typography.fontWeightMedium};
+        padding: ${theme.spacing(0.25, 2)};
+      }
+    `,
+    row: css`
+      padding: 2px;
+      display: flex;
+      justify-content: space-between;
+    `,
+    highlight: css`
+      background: ${theme.colors.action.hover};
+    `,
+    singleDisplay: css`
+      text-align: center;
+      h1 {
+        font-size: 3.5rem;
+        font-weight: ${theme.typography.fontWeightBold};
+        margin: 0px;
+      }
+    `,
+    rightDisplay: css`
+      padding-top: 0px;
+      padding-bottom: 0px;
+      text-align: right;
+      h6 {
+        font-height: 1;
+        margin: 0px;
+      }
+    `,
+    leftDisplay: css`
+      text-align: left;
+    `,
+    icon: css`
+      margin-right: 5px;
+    `,
+  }
+};

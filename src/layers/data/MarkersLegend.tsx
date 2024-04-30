@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, stylesFactory, useTheme2, VizLegendItem } from '@grafana/ui';
+import { Label, useStyles2, useTheme2, VizLegendItem } from '@grafana/ui';
 import {
   getFieldColorModeForField,
   formattedValueToString,
@@ -17,15 +17,48 @@ export interface MarkersLegendProps {
   size?: DimensionSupplier<number>;
 }
 
-export function MarkersLegend(props: MarkersLegendProps) {
+const getStyles = (theme: GrafanaTheme2) => ({
+  infoWrap: css`
+    background: ${theme.colors.background.secondary};
+    border-radius: 2px;
+    padding: ${theme.spacing(1)};
+  `,
+  legend: css`
+    line-height: 18px;
+    display: flex;
+    flex-direction: column;
+    font-size: ${theme.typography.bodySmall.fontSize};
+
+    i {
+      width: 18px;
+      height: 18px;
+      float: left;
+      margin-right: 8px;
+      opacity: 0.7;
+    }
+  `,
+  legendItem: css`
+    white-space: nowrap;
+  `,
+  gradientContainer: css`
+    min-width: 200px;
+    display: flex;
+    justify-content: space-between;
+    font-size: ${theme.typography.bodySmall.fontSize};
+    padding: ${theme.spacing(0, 0.5)};
+  `,
+});
+
+export const MarkersLegend = (props: MarkersLegendProps) => {
   const { color } = props;
+
+  const style = useStyles2(getStyles);
   const theme = useTheme2();
 
   if (!color || (!color.field && color.fixed)) {
     return <></>;
   }
 
-  const style = getStyles(theme);
   const fmt = (v: any) => `${formattedValueToString(color.field!.display!(v))}`;
   const colorMode = getFieldColorModeForField(color!.field!);
 
@@ -77,35 +110,3 @@ export function MarkersLegend(props: MarkersLegendProps) {
     </div>
   );
 }
-
-const getStyles = stylesFactory((theme: GrafanaTheme2) => ({
-  infoWrap: css`
-    background: ${theme.colors.background.secondary};
-    border-radius: 2px;
-    padding: ${theme.spacing(1)};
-  `,
-  legend: css`
-    line-height: 18px;
-    display: flex;
-    flex-direction: column;
-    font-size: ${theme.typography.bodySmall.fontSize};
-
-    i {
-      width: 18px;
-      height: 18px;
-      float: left;
-      margin-right: 8px;
-      opacity: 0.7;
-    }
-  `,
-  legendItem: css`
-    white-space: nowrap;
-  `,
-  gradientContainer: css`
-    min-width: 200px;
-    display: flex;
-    justify-content: space-between;
-    font-size: ${theme.typography.bodySmall.fontSize};
-    padding: ${theme.spacing(0, 0.5)};
-  `,
-}));

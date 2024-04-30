@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Map } from 'ol';
 import { transform } from 'ol/proj';
-import { stylesFactory } from '@grafana/ui';
 import { GrafanaTheme } from '@grafana/data';
 import { css } from '@emotion/css';
 import { config } from '../config';
@@ -62,11 +61,13 @@ export class DebugOverlay extends PureComponent<Props, State> {
   }
 }
 
-const getStyles = stylesFactory((theme: GrafanaTheme) => ({
-  infoWrap: css`
-    color: ${theme.colors.text};
-    background: ${tinycolor(theme.colors.panelBg).setAlpha(0.7).toString()};
-    border-radius: 2px;
-    padding: 8px;
-  `,
-}));
+const getStyles = (theme: GrafanaTheme) => {
+  return {
+    infoWrap: css`
+      color: ${theme.colors.text};
+      background: ${tinycolor(theme.colors.panelBg).setAlpha(0.7).toString()};
+      border-radius: 2px;
+      padding: 8px;
+    `,
+  }
+};

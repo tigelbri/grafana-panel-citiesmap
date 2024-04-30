@@ -1,7 +1,5 @@
-import React, { PureComponent } from 'react';
-import { GrafanaTheme } from '@grafana/data';
-import { config } from '@grafana/runtime';
-import { stylesFactory } from '@grafana/ui';
+import React from 'react';
+import { useStyles2 } from '@grafana/ui';
 import { css } from '@emotion/css';
 
 export interface OverlayProps {
@@ -9,25 +7,7 @@ export interface OverlayProps {
   bottomLeft?: React.ReactNode[];
 }
 
-export class GeomapOverlay extends PureComponent<OverlayProps> {
-  style = getStyles(config.theme);
-
-  constructor(props: OverlayProps) {
-    super(props);
-  }
-
-  render() {
-    const { topRight, bottomLeft } = this.props;
-    return (
-      <div className={this.style.overlay}>
-        {Boolean(topRight?.length) && <div className={this.style.TR}>{topRight}</div>}
-        {Boolean(bottomLeft?.length) && <div className={this.style.BL}>{bottomLeft}</div>}
-      </div>
-    );
-  }
-}
-
-const getStyles = stylesFactory((theme: GrafanaTheme) => ({
+const getStyles = () => ({
   overlay: css`
     position: absolute;
     width: 100%;
@@ -47,4 +27,17 @@ const getStyles = stylesFactory((theme: GrafanaTheme) => ({
     left: 8px;
     pointer-events: auto;
   `,
-}));
+});
+
+export const GeomapOverlay = ({topRight, bottomLeft}: OverlayProps) => {
+
+  const styles = useStyles2(getStyles);
+
+  return (
+    <div className={styles.overlay}>
+      {Boolean(topRight?.length) && <div className={styles.TR}>{topRight}</div>}
+      {Boolean(bottomLeft?.length) && <div className={styles.BL}>{bottomLeft}</div>}
+    </div>
+  );
+
+}

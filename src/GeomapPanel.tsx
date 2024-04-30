@@ -18,10 +18,9 @@ import {
   PanelData,
   MapLayerHandler,
   PanelProps,
-  GrafanaTheme,
   DataHoverClearEvent,
   DataHoverEvent,
-  DataFrame,
+  DataFrame
 } from '@grafana/data';
 import { config } from '@grafana/runtime';
 
@@ -30,7 +29,7 @@ import { centerPointRegistry, MapCenterID } from './view';
 import { fromLonLat, toLonLat } from 'ol/proj';
 import { Coordinate } from 'ol/coordinate';
 import { css } from '@emotion/css';
-import { Portal, stylesFactory, VizTooltipContainer } from '@grafana/ui';
+import { Portal, VizTooltipContainer } from '@grafana/ui';
 import { GeomapOverlay, OverlayProps } from './GeomapOverlay';
 import { DebugOverlay } from './components/DebugOverlay';
 import { getGlobalStyles } from './globalStyles';
@@ -53,6 +52,23 @@ interface State extends OverlayProps {
   ttip?: GeomapHoverPayload;
 }
 
+const styles = {
+  wrap: css`
+      position: relative;
+      width: 100%;
+      height: 100%;
+    `,
+  map: css`
+      position: absolute;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+    `,
+  viz: css`
+      border-radius: 10px;
+    `,
+};
+
 export class GeomapPanel extends Component<Props, State> {
   globalCSS = getGlobalStyles(config.theme2);
 
@@ -61,7 +77,6 @@ export class GeomapPanel extends Component<Props, State> {
   basemap?: BaseLayer;
   layers: MapLayerState[] = [];
   mouseWheelZoom?: MouseWheelZoom;
-  style = getStyles(config.theme);
   hoverPayload: GeomapHoverPayload = { point: {}, pageX: -1, pageY: -1 };
   readonly hoverEvent = new DataHoverEvent(this.hoverPayload);
 
@@ -137,12 +152,12 @@ export class GeomapPanel extends Component<Props, State> {
     if (this.props.options.view.id === MapCenterID.Auto && this.map) {
       let extent = createEmpty();
       const layers = this.map.getLayers().getArray();
-      for (var layer of layers) {
+      for (let layer of layers) {
         if (layer instanceof VectorLayer) {
           let source = layer.getSource();
           if (source !== undefined && source instanceof Vector) {
             let features = source.getFeatures();
-            for (var feature of features) {
+            for (let feature of features) {
               let geo = feature.getGeometry();
               if (geo) {
                 extend(extent, geo.getExtent());
@@ -392,15 +407,15 @@ export class GeomapPanel extends Component<Props, State> {
 
     const map = this.map;
 
-    var zoomCluster = function (pixel: number[]) {
-      var feature = map.forEachFeatureAtPixel(pixel, function (feature) {
+    let zoomCluster = function (pixel: number[]) {
+      let feature = map.forEachFeatureAtPixel(pixel, function (feature) {
         return feature;
       });
 
       if (feature) {
-        var features = feature.get('features');
+        let features = feature.get('features');
         if (features && features.length > 1) {
-          var extent = createEmpty();
+          let extent = createEmpty();
           features.forEach(function (f: any) {
             extend(extent, f.getGeometry().getExtent());
           });
@@ -441,14 +456,14 @@ export class GeomapPanel extends Component<Props, State> {
         {
           //<Global styles={this.globalCSS} />
         }
-        <div className={this.style.wrap}>
-          <div className={this.style.map} ref={this.initMapRef}></div>
+        <div className={styles.wrap}>
+          <div className={styles.map} ref={this.initMapRef}></div>
           <GeomapOverlay bottomLeft={bottomLeft} topRight={topRight} />
         </div>
         <Portal>
           {ttip && ttip.data && (
             <VizTooltipContainer
-              className={this.style.viz}
+              className={styles.viz}
               position={{ x: ttip.pageX, y: ttip.pageY }}
               offset={{ x: 10, y: 10 }}
             >
@@ -460,20 +475,3 @@ export class GeomapPanel extends Component<Props, State> {
     );
   }
 }
-
-const getStyles = stylesFactory((theme: GrafanaTheme) => ({
-  wrap: css`
-    position: relative;
-    width: 100%;
-    height: 100%;
-  `,
-  map: css`
-    position: absolute;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-  `,
-  viz: css`
-    border-radius: 10px;
-  `,
-}));
