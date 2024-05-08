@@ -1,5 +1,9 @@
-# Orchestra Cities - Map Panel
-This plugin extends [Grafana Geomap](https://grafana.com/docs/grafana/latest/visualizations/geomap/)
+# Cities Map Panel
+**This plugin is a fork that fixes bugs and updates the Orchestra Cities Map plugin to the latest version.**
+
+This fork uses webpack to build the plugin and accepts as properties of a geojson a JSON, processing it and displaying its data nicely in the tooltip.
+
+Orchestra Cities Map extends [Grafana Geomap](https://grafana.com/docs/grafana/latest/visualizations/geomap/) 
 panel with several functionalities:
 
 * Support for GeoJSON shapes

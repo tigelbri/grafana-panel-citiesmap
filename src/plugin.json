@@ -1,13 +1,12 @@
 {
   "type": "panel",
-  "name": "Orchestra Cities Map",
+  "name": "Cities Map",
   "id": "ertis-citiesmap-panel",
   "state": "beta",
   "info": {
-    "description": "Orchestra Cities Map",
+    "description": "Orchestra and ERTIS Cities Map",
     "author": {
-      "name": "Orchestra Cities",
-      "url": "https://github.com/orchestracities"
+      "name": "Orchestra Cities and ERTIS"
     },
     "keywords": [
       "map",
