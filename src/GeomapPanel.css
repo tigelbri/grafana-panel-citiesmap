@@ -2,6 +2,7 @@
   top: 0.5em;
   right: 0.5em;
   text-align: right;
+  color:black !important;
 }
 .ol-control.layer-switcher.shown.layer-switcher-activation-mode-click {
   padding-right: 0.5em;

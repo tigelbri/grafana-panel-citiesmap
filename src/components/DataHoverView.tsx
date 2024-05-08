@@ -37,8 +37,8 @@ export class DataHoverView extends PureComponent<Props> {
             </div>
           ))}
           {propsToShow.map((f: Field<any, Vector<any>>, i: number | undefined) => (
-            <div key={`${i}/${rowIndex}`} className={this.style.row}>
-              <span>{getFieldDisplayName(f, data)}:</span>
+            <div key={`${i}/${rowIndex}`}>
+              <div>{getFieldDisplayName(f, data)}:</div>
               {beutifyIfJSON(fmt(f, rowIndex))}
             </div>
           ))}
@@ -49,10 +49,7 @@ export class DataHoverView extends PureComponent<Props> {
         <div className={this.style.infoWrap}>
           {propsToShow.map((f: Field<any, Vector<any>>, i: number | undefined) => (
             <div key={`${i}/${rowIndex}`} className={i === columnIndex ? this.style.highlight : ''}>
-              <div className={this.style.singleDisplay}>
-                <p>{getFieldDisplayName(f, data)}</p>
                 {beutifyIfJSON(fmt(f, rowIndex))}
-              </div>
             </div>
           ))}
           {timeField.map((f: Field<any, Vector<any>>, i: number | undefined) => (
@@ -91,11 +88,11 @@ const beutifyIfJSON = (data: string) => {
     let data_json: any = JSON.parse(data);
     return <div>
       {Object.entries(data_json).map(([key, value]) => {
-        return <p key={key}>{key}: {value as string}</p>
+        return <div key={key}>{key}: {value as string}</div>
       })}
     </div>
   } catch (e) {
-      return <p>data</p>;
+      return <p>{data}</p>;
   }
 }
 
