@@ -36,6 +36,7 @@ import { getGlobalStyles } from './globalStyles';
 import { GeomapHoverFeature, GeomapHoverPayload } from './event';
 import { DataHoverView } from './components/DataHoverView';
 import { ExtendMapLayerOptions } from './extension';
+import LayerGroup from 'ol/layer/Group';
 
 interface MapLayerState {
   config: ExtendMapLayerOptions;
@@ -161,6 +162,23 @@ export class GeomapPanel extends Component<Props, State> {
               let geo = feature.getGeometry();
               if (geo) {
                 extend(extent, geo.getExtent());
+              }
+            }
+          }
+        }
+        if (layer instanceof LayerGroup) {
+          const groupLayers = layer.getLayersArray();
+          for (let l of groupLayers) {
+            if (l instanceof VectorLayer) {
+              let source = l.getSource();
+              if (source !== undefined && source instanceof Vector) {
+                let features = source.getFeatures();
+                for (let feature of features) {
+                  let geo = feature.getGeometry();
+                  if (geo) {
+                    extend(extent, geo.getExtent());
+                  }
+                }
               }
             }
           }
