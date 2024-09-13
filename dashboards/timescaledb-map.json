@@ -312,6 +312,7 @@
                                 "shape": "circle",
                                 "showLegend": true,
                                 "showPin": true,
+                                "showBorder": false,
                                 "size": {
                                     "fixed": 1,
                                     "max": 15,

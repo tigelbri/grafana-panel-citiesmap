@@ -50,6 +50,7 @@ export interface MarkersConfig {
   shape?: string;
   showLegend?: boolean;
   showPin?: boolean;
+  showBorder?: boolean;
   iconSize?: number;
   enableGradient?: boolean;
   enableShadow?: boolean;
@@ -79,6 +80,7 @@ const defaultOptions: MarkersConfig = {
   shape: 'circle',
   showLegend: true,
   showPin: false,
+  showBorder: false,
   enableGradient: false,
   enableShadow: false,
   pinShape: 'marker',
@@ -355,6 +357,7 @@ export const markersLayer: ExtendMapLayerRegistryItem<MarkersConfig> = {
 
         const showPin = options.config?.showPin ?? defaultOptions.showPin;
         const cluster = options.config?.cluster ?? defaultOptions.cluster;
+        const showBorder = options.config?.showBorder ?? defaultOptions.showBorder;
 
         for (const frame of data.series) {
           if ((options.query && options.query.options === frame.refId) || (frame.meta)) {
@@ -383,16 +386,24 @@ export const markersLayer: ExtendMapLayerRegistryItem<MarkersConfig> = {
                 if (geoType === 'Point') {
                   geometry.setStyle(shape!.make(color, fillColor, radius));
                 } else {
-                  const strokeSize = getScaledDimension(frame, config.geoJsonStrokeSize);
                   let style = new Style({
-                    stroke: new Stroke({
-                      color: color,
-                      width: strokeSize.get(i),
-                    }),
                     fill: new Fill({
                       color: fillColor,
-                    }),
+                    })
                   });
+                  if (showBorder)
+                  {
+                    const strokeSize = getScaledDimension(frame, config.geoJsonStrokeSize);
+                    style = new Style({
+                      stroke: new Stroke({
+                      color: color,
+                      width: strokeSize.get(i),
+                      }),
+                      fill: new Fill({
+                        color: fillColor,
+                      })
+                    });
+                  }
                   geometry.setStyle(style);
                 }
                 geometryFeatures.push(geometry);
@@ -514,6 +525,12 @@ export const markersLayer: ExtendMapLayerRegistryItem<MarkersConfig> = {
         name: 'Show pin',
         description: 'Show pin',
         defaultValue: defaultOptions.showPin,
+      })
+      .addBooleanSwitch({
+        path: 'config.showBorder',
+        name: 'Show border',
+        description: 'Show border',
+        defaultValue: defaultOptions.showBorder,
       })
       .addSelect({
         path: 'config.pinShape',

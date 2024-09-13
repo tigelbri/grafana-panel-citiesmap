@@ -116,6 +116,7 @@
                                 "shape": "circle",
                                 "showLegend": true,
                                 "showPin": true,
+                                "showBorder": false,
                                 "size": {
                                     "field": "availablespotnumber",
                                     "fixed": 1,
